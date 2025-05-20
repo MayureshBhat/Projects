@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        /* Body styling */
+        body 
+        {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: lightblue; /* Light blue for a calming background */
+        }
+        /* Calculator container styling */
+        .calculator 
+        {
+            background-color: white; /* Pure white for a clean calculator background */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+        }
+
+        /* Display styling */
+        .display 
+        {
+            width: 100%;
+            height: 50px;
+            background-color: lightgray; /* Light gray for the display */
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: right;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Button styling */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            height: 50px;
+            background-color: royalblue; /* Royal blue for main buttons */
+            color: white; /* White text for contrast */
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: navy; /* Darker blue for hover effect */
+        }
+
+        .button.clear {
+            background-color: crimson; /* Crimson red for the clear button */
+        }
+
+        .button.clear:hover {
+            background-color: darkred; /* Dark red for hover effect */
+        }
+
+        .button.equal {
+            background-color: forestgreen; /* Green for the equals button */
+        }
+
+        .button.equal:hover {
+            background-color: darkgreen; /* Darker green for hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <!-- Display input -->
+        <input type="text" id="display" class="display" readonly>
+
+        <!-- Buttons container -->
+        <div class="buttons">
+            <!-- Number and operator buttons -->
+            <button class="button" onclick="appendValue('7')">7</button>
+            <button class="button" onclick="appendValue('8')">8</button>
+            <button class="button" onclick="appendValue('9')">9</button>
+            <button class="button" onclick="appendValue('/')">/</button>
+
+            <button class="button" onclick="appendValue('4')">4</button>
+            <button class="button" onclick="appendValue('5')">5</button>
+            <button class="button" onclick="appendValue('6')">6</button>
+            <button class="button" onclick="appendValue('*')">*</button>
+
+            <button class="button" onclick="appendValue('1')">1</button>
+            <button class="button" onclick="appendValue('2')">2</button>
+            <button class="button" onclick="appendValue('3')">3</button>
+            <button class="button" onclick="appendValue('-')">-</button>
+
+            <button class="button" onclick="appendValue('0')">0</button>
+            <button class="button" onclick="appendValue('.')">.</button>
+            <button class="button equal" onclick="calculate()">=</button>
+            <button class="button" onclick="appendValue('+')">+</button>
+
+            <!-- Clear button -->
+            <button class="button clear" onclick="clearDisplay()">C</button>
+        </div>
+    </div>
+    <script>
+        // Function to append value to the display
+        function appendValue(value) 
+        {
+            const display = document.getElementById('display');
+            display.value += value;
+        }
+        // Function to clear the display
+        function clearDisplay() 
+        {
+            const display = document.getElementById('display');
+            display.value = '';
+        }
+
+        // Function to calculate the result
+        function calculate() 
+        {
+            const display = document.getElementById('display');
+            try 
+            {
+                display.value = eval(display.value);
+            } catch (error) 
+            {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>

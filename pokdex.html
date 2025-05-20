@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Revolving Pokédex </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at center, #1a1a3d 0%, #000033 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Space background with stars */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000"><circle cx="100" cy="100" r="2" fill="white" opacity="0.8"/><circle cx="200" cy="300" r="1" fill="white" opacity="0.6"/><circle cx="400" cy="150" r="2" fill="white" opacity="0.7"/><circle cx="600" cy="400" r="1.5" fill="white" opacity="0.9"/><circle cx="800" cy="200" r="2" fill="white" opacity="0.5"/><circle cx="300" cy="600" r="1" fill="white" opacity="0.8"/><circle cx="500" cy="700" r="2" fill="white" opacity="0.6"/><circle cx="700" cy="500" r="1.5" fill="white" opacity="0.7"/><circle cx="900" cy="300" r="2" fill="white" opacity="0.9"/><circle cx="150" cy="800" r="1" fill="white" opacity="0.5"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .container {
+            position: relative;
+            width: 800px; /* Increased to accommodate larger orbit */
+            height: 800px;
+        }
+
+        h1 {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #00f, 0 0 20px #00f;
+        }
+
+        .pokedex {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .pokemon-card {
+            position: absolute;
+            width: 140px;
+            height: 200px;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 255, 255, 0.2);
+            text-align: center;
+            padding: 10px;
+            transition: transform 0.3s ease;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            overflow: hidden;
+        }
+
+        .pokemon-card img {
+            width: 70px;
+            height: 70px;
+            margin-top: 5px;
+        }
+
+        .pokemon-card h3 {
+            text-transform: capitalize;
+            font-size: 1rem;
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .types {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 5px;
+        }
+
+        .type {
+            padding: 3px 6px;
+            border-radius: 3px;
+            color: white;
+            font-size: 0.7rem;
+            text-transform: capitalize;
+        }
+
+        .description {
+            font-size: 0.7rem;
+            color: #555;
+            padding: 0 5px;
+            line-height: 1.2;
+        }
+
+        /* Type colors */
+        .normal { background-color: #A8A77A; }
+        .fire { background-color: #EE8130; }
+        .water { background-color: #6390F0; }
+        .electric { background-color: #F7D02C; }
+        .grass { background-color: #7AC74C; }
+        .ice { background-color: #96D9D6; }
+        .fighting { background-color: #C22E28; }
+        .poison { background-color: #A33EA1; }
+        .ground { background-color: #E2BF65; }
+        .flying { background-color: #A98FF3; }
+        .psychic { background-color: #F95587; }
+        .bug { background-color: #A6B91A; }
+        .rock { background-color: #B6A136; }
+        .ghost { background-color: #735797; }
+        .dragon { background-color: #6F35FC; }
+        .dark { background-color: #705746; }
+        .steel { background-color: #B7B7CE; }
+        .fairy { background-color: #D685AD; }
+
+        /* Revolving animation with increased radius */
+        @keyframes revolve 
+        {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) translateX(300px) translateY(150px) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) translateX(300px) translateY(150px) rotate(-360deg);
+            }
+        }
+
+        .pokemon-card:nth-child(1) { animation: revolve 20s linear infinite; }
+        .pokemon-card:nth-child(2) { animation: revolve 20s linear infinite 2s; }
+        .pokemon-card:nth-child(3) { animation: revolve 20s linear infinite 4s; }
+        .pokemon-card:nth-child(4) { animation: revolve 20s linear infinite 6s; }
+        .pokemon-card:nth-child(5) { animation: revolve 20s linear infinite 8s; }
+        .pokemon-card:nth-child(6) { animation: revolve 20s linear infinite 10s; }
+        .pokemon-card:nth-child(7) { animation: revolve 20s linear infinite 12s; }
+        .pokemon-card:nth-child(8) { animation: revolve 20s linear infinite 14s; }
+        .pokemon-card:nth-child(9) { animation: revolve 20s linear infinite 16s; }
+        .pokemon-card:nth-child(10) { animation: revolve 20s linear infinite 18s; }
+
+        .pokemon-card:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            z-index: 10;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 400px;
+                height: 400px;
+            }
+
+            .pokemon-card {
+                width: 100px;
+                height: 150px;
+            }
+
+            .pokemon-card img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .pokemon-card h3 {
+                font-size: 0.8rem;
+            }
+
+            .description {
+                font-size: 0.6rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                top: -50px;
+            }
+
+            @keyframes revolve {
+                0% {
+                    transform: translate(-35%, -35%) rotate(0deg) translateX(300px)  rotate(0deg);
+                }
+                100% {
+                    transform: translate(-35%, -35%) rotate(360deg) translateX(300px) rotate(-360deg);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Revolving Pokédex</h1>
+        <div class="pokedex" id="pokedex"></div>
+    </div>
+
+    <script>
+        const pokedex = document.getElementById('pokedex');
+
+        // Hardcoded Pokémon data
+        const pokemonList = [
+            {
+                name: 'Bulbasaur',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+                types: ['grass', 'poison'],
+                description: 'A seed Pokémon with a bulb on its back that grows with its health.'
+            },
+            {
+                name: 'Charmander',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+                types: ['fire'],
+                description: 'A fire Pokémon with a flame on its tail that burns brighter when healthy.'
+            },
+            {
+                name: 'Squirtle',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
+                types: ['water'],
+                description: 'A turtle Pokémon that shoots water from its mouth.'
+            },
+            {
+                name: 'Pikachu',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+                types: ['electric'],
+                description: 'An electric mouse Pokémon known for its powerful thunderbolts.'
+            },
+            {
+                name: 'Jigglypuff',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png',
+                types: ['normal', 'fairy'],
+                description: 'A balloon Pokémon that sings lullabies to put foes to sleep.'
+            },
+            {
+                name: 'Gengar',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png',
+                types: ['ghost', 'poison'],
+                description: 'A mischievous ghost Pokémon that hides in shadows.'
+            },
+            {
+                name: 'Eevee',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png',
+                types: ['normal'],
+                description: 'A Pokémon with multiple evolution paths due to its unstable DNA.'
+            },
+            {
+                name: 'Snorlax',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png',
+                types: ['normal'],
+                description: 'A sleepy Pokémon that blocks paths by napping.'
+            },
+            {
+                name: 'Mew',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png',
+                types: ['psychic'],
+                description: 'A mythical Pokémon said to contain the DNA of all Pokémon.'
+            },
+            {
+                name: 'Dragonite',
+                image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png',
+                types: ['dragon', 'flying'],
+                description: 'A kind-hearted dragon Pokémon that flies over the seas.'
+            }
+        ];
+
+        // Display Pokémon cards
+        function displayPokemon(pokemonArray) {
+            pokedex.innerHTML = '';
+            pokemonArray.forEach(pokemon => {
+                const card = document.createElement('div');
+                card.classList.add('pokemon-card');
+
+                const types = pokemon.types.map(type => `
+                    <span class="type ${type}">${type}</span>
+                `).join('');
+
+                card.innerHTML = `
+                    <img src="${pokemon.image}" alt="${pokemon.name}">
+                    <h3>${pokemon.name}</h3>
+                    <div class="types">${types}</div>
+                    <p class="description">${pokemon.description}</p>
+                `;
+                pokedex.appendChild(card);
+            });
+        }
+
+        // Initialize Pokédex
+        displayPokemon(pokemonList);
+    </script>
+</body>
+</html>
